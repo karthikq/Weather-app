@@ -1,0 +1,74 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <title>Weather Api</title>
+  </head>
+
+  <body>
+    <main class="container">
+      <div class="contents">
+        <div class="text">
+          <h2>Weather Data</h2>
+          <form action="/" method="POST">
+            <input type="text" name="location" placeholder="Search Location" />
+            <button type="submit" class="visibleBorderLeftRight">Search</button>
+          </form>
+        </div>
+
+        <% if(typeof data !="undefined"){ %>
+        <div class="padding">
+          <div class="temp-box">
+            <div class="first-elements">
+              <div class="temp">
+                <img src="<%=link%>" alt="err" />
+                <p><%=data.temperature %> <span>&#8451;</span></p>
+              </div>
+
+              <h4><%=query%></h4>
+            </div>
+            <div class="second-elements">
+              <div class="samll">
+                <p><%= data.desciption %></p>
+                <p>Wind Speed <%=data.windSpeed %></p>
+              </div>
+
+              <p>Humidity :<%=data.humidity %></p>
+            </div>
+            <div class="map">
+              <div id="map"></div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </main>
+    <% if(typeof data !="undefined"){ %>
+    <script>
+      let lat = "<%=data.lat%>";
+      let long = "<%=data.lon%>";
+      console.log(lat, long);
+      let map = L.map("map").setView([0, 0], 1);
+
+      L.tileLayer(
+        "https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=2lWZuNn5DTrOxZ3cQNdd",
+        {
+          attribution:
+            '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+        }
+      ).addTo(map);
+      let marker = L.marker([lat, long]).addTo(map);
+    </script>
+    <% } %>
+  </body>
+</html>
